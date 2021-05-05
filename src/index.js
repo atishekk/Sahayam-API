@@ -1,30 +1,54 @@
-require('dotenv').config();
-const express = require('express');
-const {ApolloServer} = require("apollo-server-express");
+// Dependencies
+require("dotenv").config();
+const express = require("express");
+const { ApolloServer } = require("apollo-server-express");
 const helmet = require("helmet");
-const cors = require('cors');
-const db = require("./db")
+const cors = require("cors");
 
-const typeDefs = require("./schema")
-const resolvers = require("./resolvers")
+// Environment Variables
+const port = process.env.PORT;
+const DB = process.env.ATLAS_DB;
 
-const port=process.env.PORT;
-const DB_HOST = process.env.ATLAS_DB;
+// Modules
+const DatabaseConnect = require("./DatabaseConnect");
+const typeDefs = require("./GQLModel/Schema");
+const resolvers = require("./GQLModel/Resolvers");
+const Utils = require("./Utils");
 
+//Models
+const DBModel = require("./DBModels");
+const ValidationModel = require("./ValidationModels");
+
+// Express App init
 const app = express();
-
-app.use(helmet({ contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false }));
+app.use(
+  helmet({
+    contentSecurityPolicy:
+      process.env.NODE_ENV === "production" ? undefined : false
+  })
+);
 app.use(cors());
+DatabaseConnect.connect(DB);
 
-db.connect(DB_HOST);
-
+// Apollo Server Config
 const server = new ApolloServer({
-    typeDefs,
-    resolvers
+  typeDefs,
+  resolvers,
+  context: ({ req }) => {
+    const token = req.headers.authorization;
+    const user = Utils.getUser(token);
+    console.log(user);
+    return { DBModel, ValidationModel, user };
+  }
+});
+server.applyMiddleware({ app, path: "/api" });
+
+// Express API if needed
+app.get("/", (req, res) => {
+  res.send("Please go to /api");
 });
 
-server.applyMiddleware({app, path: "/api"})
-
-app.listen({port}, () => {
-    console.log("Graphql Server running");
-})
+//Start the server
+app.listen({ port }, () => {
+  console.log("Graphql Express Server started on port 8080!!!");
+});
