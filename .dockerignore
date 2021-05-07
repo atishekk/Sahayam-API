@@ -1,0 +1,14 @@
+# node
+node_modules
+.nvmrc
+jsconfig.json
+.eslintrc.js
+
+#git
+.gitignore
+.git
+
+#Docker
+Dockerfile
+scripts
+.dockerignore

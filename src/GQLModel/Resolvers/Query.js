@@ -1,3 +1,3 @@
 module.exports = {
-  hello: () => "Hello There"
+  hello: () => 'Hello There',
 };
