@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  app:
+    image: node
+    command: sh -c "npm install --development && npm run dev"
+    ports:
+      - 4000:${PORT}
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+      DB_HOST: ${ATLAS_DB}
+      JWT_SECRET: ${JWT_SECRET}
