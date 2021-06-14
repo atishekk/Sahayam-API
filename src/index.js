@@ -7,7 +7,7 @@ const cors = require('cors');
 
 // Environment Variables
 const port = process.env.PORT;
-const DB = process.env.DB_HOST;
+const DB = process.env.ATLAS_DB;
 
 // Modules
 const DatabaseConnect = require('./DatabaseConnect');
@@ -37,7 +37,7 @@ const server = new ApolloServer({
   context: ({req}) => {
     const token = req.headers.authorization;
     const user = Utils.getUser(token);
-    console.log(user);
+    // console.log(user);
     return {DBModel, ValidationModel, user};
   },
 });

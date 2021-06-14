@@ -1,7 +1,7 @@
-const Query = require('./Query');
-const Mutation = require('./Mutation');
-
-module.exports = {
-  Query,
-  Mutation,
+const userResolver =require('./UserResolver');
+const NGOWorkerResolver =require('./NGOWorkerResolver');
+const NGOResolver = require('./NGOResolver');
+const TaskResolver = require('./TaskResolver');
+module.exports={
+  ...TaskResolver,
 };

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema(
+const NGOWorkerSchema = new mongoose.Schema(
     {
     // absolute necessary
       username: {
@@ -27,13 +27,16 @@ const UserSchema = new mongoose.Schema(
       mobile: Number,
       city: String,
       country: String,
-      tasks: {type: Array, default: []},
+      NGO: String,
+    //   todo posted
+    //   taskPosted:[]
     },
     {
       timestamps: true,
     },
 );
 
-const User = mongoose.model('User', UserSchema);
+const NGOWorker = mongoose.model('NGOWorker', NGOWorkerSchema);
 
-module.exports = User;
+module.exports = NGOWorker;
+
