@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  app:
+    image: node
+    command: sh -c "npm install --development && npm run dev"
+    ports:
+      - 4000:${PORT}
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+      DB_HOST: ${DB_HOST}
+      JWT_SECRET: ${JWT_SECRET}
+  mongo:
+    image: mongo
+    command: --serviceExecutor adaptive
+    volumes:
+      - sahayam-mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PSSWD}
+
+volumes:
+  sahayam-mongo:
